@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Test Arduino</title>
+
+        <script src="socket.io.js"></script>
+        <script>
+            var socket = io.connect();
+            
+            var on = function(data){
+                document.getElementById('voteTally').setAttribute('width', data);
+            }
+
+            var off = function(){
+              document.querySelector('body').classList.remove('on');
+            }
+
+            socket.on('on', on);
+            socket.on('off', off);
+
+        </script>
+        <svg>
+          <rect id="voteTally" x="10" y="10" width="1" height="100"/>
+        </svg>
+        
+    </head>
+    <body class='off'>
+    </body>
+</html>
