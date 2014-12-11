@@ -3,28 +3,82 @@
     <head>
         <meta charset="utf-8">
         <title>Test Arduino</title>
-
+        <link rel="stylesheet" type="text/css" href="styles2.css">
         <script src="socket.io.js"></script>
         <script>
             var socket = io.connect();
             
-            var on = function(data){
-                document.getElementById('voteTally').setAttribute('width', data);
+            // keep track of votes on the front end
+            var votes1 = 0; 
+            var votes2 = 0; 
+            var voteTotal = 0; 
+                        
+            var votesProcess1 = function(data){
+                document.getElementById('voteDisplay1').setAttribute('height', data);
+                votes1 = data; 
+                voteTotal = votes1 + votes2;
+                winLose()
             }
-
-            var off = function(){
-              document.querySelector('body').classList.remove('on');
+            var votesProcess2 = function(data){
+                document.getElementById('voteDisplay2').setAttribute('height', data);
+                votes2 = data; 
+                voteTotal = votes1 + votes2; 
+                winLose()
             }
+            socket.on('voteTally1', votesProcess1);
+            socket.on('voteTally2', votesProcess2);
 
-            socket.on('on', on);
-            socket.on('off', off);
+        function winLose () {
+            document.getElementById('votingTotal').innerText = "Voting results: " + voteTotal;                
+        
+            if (votes1 == votes2) {
+                document.getElementById('winner').innerText = "An equal number of people like cats and dogs.";
+            }
+            else if (votes1 < votes2) {
+                document.getElementById('winner').innerText = "Most people like cats over dogs.";
+            }
+            else if (votes1 > votes2) {
+                document.getElementById('winner').innerText = "Most people like dogs over cats.";
+            }
+        }
 
         </script>
-        <svg>
-          <rect id="voteTally" x="10" y="10" width="1" height="100"/>
-        </svg>
+ 
         
     </head>
     <body class='off'>
+    
+        <header>
+            <h1>Cats vs. Dogs: The line up.</h1>
+            <h2 id="votingTotal">Total number of votes: 0 </h2>
+        </header>
+        <div id = 'container'>
+            <p>Results</p>
+            <div id = "barGraph">
+                <p>Graph</p>
+                <svg id="svgInner" xmlns="http://www.w3.org/2000/svg" 
+                version="1.1" width = "500px" height = "500px" viewBox="0 0 500 500" xml:space="preserve">
+                  <rect id="voteDisplay1" x="50" y="0" width="150" height="1" fill="red"/>
+                  <rect id="voteDisplay2" x="250" y="0" width="150" height="1" fill="blue"/>
+                </svg>
+            </div>
+            <div id = 'scale'>
+                <p>scale</p>
+                <img src="images/Scale.png">
+            </div>
+            <div>
+                <h3 id='winner'>Who will win, cats or dogs? Vote!</h3>
+            </div>
+        </div>
+        <div id = 'options'>
+            <h3>Option 1: <br>Dogs</h3>
+            <div id="optionPic1"><span><img src="images/Doge.PNG"></span></div>
+            <h3>Option 2: <br>Cats</h3>
+            <div id="optionPic2"><span><img src="images/NyanCat.PNG"></span></div>
+           
+        </div>
     </body>
+    <footer>
+        <p>Created by Gentry Demchak using Arduino, Node.js, Johnny-Five, and Socket.io. Special thanks to Aaron Hill for instantiating Socket.io</p>
+    </footer>
 </html>

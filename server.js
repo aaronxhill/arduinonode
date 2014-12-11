@@ -44,7 +44,7 @@ function serveStatic(response, cache, absPath) {
 var server = http.createServer(function(request, response) {
   var filePath = false;
   if (request.url == '/') {
-    filePath = 'index.html';
+    filePath = 'index2.html';
   } else {
     filePath = request.url;
   }
@@ -57,41 +57,98 @@ server.listen(8080, function() {
 });
 
 // track votes
-var votes = 1; 
+var votes1 = 0;
+var votes2 = 0; 
 
 // use socket.io
 var io = require('socket.io').listen(server);
 
 // arduino vars
 var five = require("johnny-five"),
-    bumper, led,
+    bumper1, bumper2, led1, led2, test,
     board = new five.Board();
 
 //turn off debug
 io.set('log level', 1);
 
+
+
 // define interactions with client
 io.sockets.on('connection', function(socket){
 
     //send data to client    
-    board.on('on', function(){
-        votes = votes + 1; 
-        socket.emit('on', votes);
+    board.on('voteTally1', function(){
+//         votes = votes + 1; 
+        socket.emit('voteTally1', votes1);
     });
     
+    board.on('voteTally2', function(){
+//     votes = votes + 1; 
+    socket.emit('voteTally2', votes2);
+    });
 });
 
+
+
+// define interactions with client
+// io.sockets.on('connection', function(socket){
+// 
+// 
+//     socket.on('on', function(){
+//       socket.emit('on', votes1);
+//     });
+//     //send data to client    
+//     board.on('vote1', function(){
+//         //votes1 += 10;
+//         //votes = votes + 1; 
+//         socket.emit('vote1', votes1);
+//         console.log('sent vote1 data!')
+// 
+//     });
+//     
+//     board.on('vote2', function(){
+//         //votes1 += 10;
+//         //votes = votes + 1; 
+//         socket.emit('vote2', votes2);
+//         console.log('sent vote2 data!')
+// 
+//     });
+// 
+//     board.on('on', function(){
+//         votes1 += 10;
+//         //votes = votes + 1; 
+//         socket.emit('on', votes2);
+//         console.log('sent vote2 data!')
+//     });
+//     
+// });
+
+
 board.on("ready", function() {
-  bumper = new five.Button(2);
-  led = new five.Led(13);
+  bumper1 = new five.Button(2);
+  bumper2 = new five.Button(4);
+  led1 = new five.Led(12);
+  led2 = new five.Led(13);
  
-  bumper.on("down", function() {
-    board.emit('on');
-    if (votes % 2 === 0)
-    {led.on();}
-    else {led.off();}
-    console.log('button down'); 
-    console.log(votes); 
+  bumper1.on("hit", function() {
+    votes1 += 1;  
+    if (votes1 % 2 === 0) {led1.off()}
+    else {led1.on(); }
+    board.emit('voteTally1'); 
+    console.log('button 1 pressed'); 
+    console.log(votes1); 
+  }); 
+
+  bumper2.on("hit", function() {
+    votes2 += 1;
+    if (votes2 % 2 === 0) {led2.off()}
+    else {led2.on(); }
+    board.emit('voteTally2');
+    console.log('button 2 pressed'); 
+    console.log(votes2); 
   }); 
   });
+
+
+
 // });

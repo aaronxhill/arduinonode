@@ -1,0 +1,129 @@
+body {
+	font-family: Helvetica;
+	padding top: 20px;
+	padding bottom: 20px;
+	width: 100%;
+	margin: auto;
+	text-align: center;
+	border: 1px solid black;
+	
+}
+
+header {
+	
+	margin: auto;
+	width: 100%;
+	padding: 20px;
+	background-color: #000000;
+	color: white;
+	position: fixed;
+}
+
+#container {
+	
+	margin: 150px auto;
+	width: 60%;
+	padding: 20px;
+	float: right;
+	text-align: left;
+
+}
+
+#barGraph {
+	text-align: center;
+	margin: 0 auto;
+	width: 74%;
+	height: 500px;
+	float: left;
+	box-shadow: 0px 0px 5px #000000;
+
+}
+
+#barGraph:hover {
+	background-color:#E6E6E6;
+	box-shadow: 0px 0px 8px #000000;
+
+
+}
+
+#scale {
+	text-align: center;
+	width: 24%;
+	height: 500px;
+	float: right;
+}
+
+#winner {
+	float: left;
+	width: 90%;
+	height:50px;
+	margin: 20px 0px 0px 0px;
+	padding: 20px;
+	box-shadow: 0px 0px 8px #000000;
+}
+
+#win {
+	text-decoration: underline;
+	color: blue;
+
+}
+
+#lose {
+	text-decoration: underline;
+	color: red;
+}
+
+#options {
+	
+	width: 30%;
+	height: 400px;
+	margin: 0px 20px 0px 0px;
+	float: left;
+	top: 170px;
+	position: fixed;
+	z-index: -1;
+	}
+
+#optionPic1 {
+	border-radius: 100px;
+	overflow: hidden;
+	width:100px;
+	height:100px;
+	margin: 0 auto;
+	position:relative;
+	border: 5px solid red;
+}
+
+#optionPic2 {
+	border-radius: 100px;
+	overflow: hidden;
+	width:100px;
+	height:100px;
+	margin: 0 auto;
+	position:relative;
+	border: 5px solid blue;
+}
+
+#optionPic1 span {
+	position: absolute;
+	top:-19px;
+	right:-37px;
+	bottom:5px;
+}
+
+#optionPic2 span {
+	position: absolute;
+	top:-19px;
+	right:-37px;
+	bottom:5px;
+}
+
+footer p {
+	margin: auto;
+	padding: 20px;
+	border-top: 1px solid grey;
+	background-color: white;
+	text-align: left;  
+	clear: both;
+	z-index: 1;
+}
